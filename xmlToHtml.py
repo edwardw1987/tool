@@ -11,6 +11,7 @@ import argparse
 import time
 import socket
 
+BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
 def main():
     """
@@ -23,8 +24,8 @@ def main():
         output to tempest.html
     """
     # defaultOutputFilename = time.strftime('%Y%d%m%H%M%S') + '.xml'
-    defaultOutputFilename = 'tempest_%s.xml' % time.strftime('%Y%d%m%H%M%S')
-    defaultDirname = './'
+    defaultOutputFilename = 'tempest.xml'
+    defaultDirname = 'tempest/'
     # cmd:　nosetests tempest/ --with-xunit --xunit-file=/root/tempest.xml -v
 
     parser = argparse.ArgumentParser(
@@ -37,23 +38,26 @@ def main():
                         required=False, action="store", help="output xml filepath")
     args = parser.parse_args()
     cmd_tpl = "nosetests %(workdir)s --with-xunit --xunit-file=%(outFilePath)s -v"
-    cmd_str = cmd_tpl % dict(workdir=args.workdir, outFilePath=args.xunitFile)
+    outFileAbsPath = os.path.join(BASE_DIR, args.xunitFile)
+    cmd_str = cmd_tpl % dict(workdir=args.workdir, outFilePath=outFileAbsPath)
     print 'RUN: %s' % cmd_str
     signal = os.system(cmd_str)
 
     print 'wait for seconds...'
     time_counter = 0
-    while not os.path.exists(args.xunitFile):
+    while not os.path.exists(outFileAbsPath):
         time.sleep(0.5)
         time_counter += 0.5
         if time_counter > 5:
             return
-
     # if len(sys.argv) < 2:
     #     sys.exit(0)
     # filepath = sys.argv[1]
-
-    filepath = args.xunitFile
+    oldfilepath = outFileAbsPath
+    filepath = os.path.splitext(oldfilepath)[0] + '_%s.xml' % time.strftime('%Y%d%m%H%M%S')
+    print 'old:', oldfilepath
+    print 'new:', filepath
+    os.rename(oldfilepath, filepath)
     tree = ET.parse(filepath)
     root = tree.getroot()
     all = 0
