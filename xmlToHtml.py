@@ -54,7 +54,7 @@ def main():
     #     sys.exit(0)
     # filepath = sys.argv[1]
     oldfilepath = outFileAbsPath
-    filepath = os.path.splitext(oldfilepath)[0] + '_%s.xml' % time.strftime('%Y%d%m%H%M%S')
+    filepath = os.path.splitext(oldfilepath)[0] + '_%s.xml' % time.strftime('%Y%m%d%H%M%S')
     print 'old:', oldfilepath
     print 'new:', filepath
     os.rename(oldfilepath, filepath)
