@@ -5,8 +5,11 @@
     <title>Title</title>
     <style>
         html {
-            font: 16px '微软雅黑','consolas','arial';
+            font: 14px '微软雅黑','consolas','arial';
             text-align: center;
+        }
+        body {
+            margin: 0;
         }
         th{
             color: white;
@@ -16,11 +19,12 @@
 
         th, td {
             border: 1px solid;
-            max-width: 200px;
+            max-width: 110px;
+            /*word-break: break-all;*/
             word-wrap: break-word;
         }
         th{
-            padding: 5px 90px;
+            padding: 5px 85px;
 
         }
         .caption {
@@ -28,12 +32,12 @@
             right: 0;
             font-size: 1.5em;
             text-align: left;
-            padding-right: 150px;
+            padding-right: 30px;
         }
         p > a {
             color: red;
         }
-        th.first-col {
+        th.tiny-col {
             padding: 5px 5px;
         }
         .error-msg {
@@ -53,17 +57,17 @@
 <div class="caption" style="float: right;">
     <p>tests:<a href="javascript:;" id="show-all">{{all}}</a></p>
     <p>errors:<a href="javascript:;" id="show-errors">{{errorsNum}}</a></p>
-    <p>failures:<span>{{fails}}</span></p>
-    <p>skip:<span>{{skip}}</span></p>
+    <p>failures:<a href="javascript:;" id="show-fails">{{fails}}</a></p>
+    <p>skip:<a href="javascript:;" id="show-skips">{{skip}}</a></p>
     <p>display:<span style="color: blue;" id="show-display">{{all}}</span></p>
 </div>
 <table cellspacing="0">
     <tbody>
         <tr>
-            <th class="first-col">no</th>
+            <th class="tiny-col">no</th>
             <th>classname</th>
             <th>name</th>
-            <th>time</th>
+            <th class="tiny-col">time</th>
             <th>error</th>
             <th>failure</th>
             <th>skip</th>
@@ -87,10 +91,33 @@
             $("#error-msg-" + row).fadeToggle()
             $(".error-msg:not(#error-msg-" + row + ")").hide();
         });
+        $('[data-skip]').on("click", function(e){
+            var row = $(this).data("skip");
+            $("#error-msg-" + row).fadeToggle()
+            $(".error-msg:not(#error-msg-" + row + ")").hide();
+        });
+        $('[data-fail]').on("click", function(e){
+            var row = $(this).data("fail");
+            $("#error-msg-" + row).fadeToggle()
+            $(".error-msg:not(#error-msg-" + row + ")").hide();
+        });
         $("#show-errors").on("click", function(){
             var $tr = $('tr').hide();
             $tr.eq(0).show();
             $("tr:has([data-error])").toggle();
+            $("#show-display").html($(this).text())
+        });
+
+        $("#show-fails").on("click", function(){
+            var $tr = $('tr').hide();
+            $tr.eq(0).show();
+            $("tr:has([data-fail])").toggle();
+            $("#show-display").html($(this).text())
+        });
+        $("#show-skips").on("click", function(){
+            var $tr = $('tr').hide();
+            $tr.eq(0).show();
+            $("tr:has([data-skip])").toggle();
             $("#show-display").html($(this).text())
         });
         $("#show-all").on("click", function(){

@@ -72,6 +72,8 @@ def main():
         <td>{time}</td>
     """
     errorLinkTpl = "<td><a data-error=\"{no}\" href=\"javascript:;\">{errorName}</a></td>"
+    failLinkTpl = "<td><a data-fail=\"{no}\" href=\"javascript:;\">{errorName}</a></td>"
+    skipLinkTpl = "<td><a data-skip=\"{no}\" href=\"javascript:;\">{errorName}</a></td>"
     errorDivTpl = """
     <div class="error-msg" id="error-msg-{no}" style="display: none;">
         <span style="float:left; color: red; font-size:2em;">{no}</span>
@@ -81,20 +83,35 @@ def main():
     """
     html = ""
     errorDivHtml = ""
+    emptyDt = '<td>N/A</td>'
     for idx, val in enumerate(root):
         all += 1
         params = val.attrib.copy()
         params["no"] = idx + 1
         html += startTpl.format(**params)
+        temp = html
         for e in val:
-            errorsNum += 1
             errorDivHtml += errorDivTpl.format(no=idx + 1, errorMsg=e.text)
             if e.tag == "error":
+                errorsNum += 1
                 html += errorLinkTpl.format(no=idx + 1,
                                             errorName=e.attrib["type"])
+                html += emptyDt * 2
             elif e.tag == "system-err":
                 html += errorLinkTpl.format(no=idx + 1, errorName="system-err")
-
+            elif e.tag == 'failure':
+                fails += 1
+                html += emptyDt
+                html += failLinkTpl.format(no=idx + 1, errorName=e.attrib["type"])
+                html += emptyDt 
+            elif e.tag == 'skipped':
+                skip += 1
+                html += emptyDt * 2
+                html += skipLinkTpl.format(no=idx + 1, errorName=e.attrib["type"])
+        # none of error/failure/skipped tag
+        # add 3 tds to the row
+        if temp == html:
+            html += emptyDt * 3
         html += '</tr>'
     templatePath = os.path.join(os.path.dirname(__file__), 'template.html')
     with open(templatePath) as fp:
