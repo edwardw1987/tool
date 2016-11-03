@@ -29,8 +29,10 @@ def main():
     # cmd:　nosetests tempest/ --with-xunit --xunit-file=/root/tempest.xml -v
 
     parser = argparse.ArgumentParser(
+        prog="xmlToHtml.py",
+        version='v0.3',
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
-        description="Transform xunit-file of xml into html, V0.1")
+        description="Transform xunit-file of xml into html")
     parser.add_argument('--dir', dest="workdir", metavar="working directory", action="store", default=defaultDirname,
                         help="working directory to use")
     parser.add_argument('--xunit-file', dest="xunitFile", metavar="xunitFile",
