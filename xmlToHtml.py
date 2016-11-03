@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 # @Author: edward
 # @Date:   2016-10-28 23:23:01
-# @Last Modified by:   edward
-# @Last Modified time: 2016-10-29 01:19:05
+# @Last Modified by:   wangwh8
+# @Last Modified time: 2016-11-03 14:31:54
 import xml.etree.ElementTree as ET
 import os
 import sys
