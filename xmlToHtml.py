@@ -10,6 +10,7 @@ import sys
 import argparse
 import time
 import socket
+import shutil
 
 BASE_DIR = os.path.abspath(os.path.dirname(__file__))
 
@@ -57,10 +58,13 @@ def main():
     #     sys.exit(0)
     # filepath = sys.argv[1]
     oldfilepath = outFileAbsPath
-    filepath = os.path.splitext(oldfilepath)[0] + '_%s.xml' % time.strftime('%Y%m%d%H%M%S')
-    print 'old:', oldfilepath
-    print 'new:', filepath
-    os.rename(oldfilepath, filepath)
+    _, outFileName = os.path.split(oldfilepath)
+    outFileNameTimed = outFileName.split('.')[0] + '_%s.xml' % time.strftime('%Y%m%d%H%M%S')
+    filepath = os.path.join(BASE_DIR, outFileNameTimed)
+    print 'move %s to %s.' % (oldfilepath, filepath)
+    shutil.copy(oldfilepath, filepath)
+    print 'rm %s.' % oldfilepath
+    os.remove(oldfilepath)
     tree = ET.parse(filepath)
     root = tree.getroot()
     all = 0
