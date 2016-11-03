@@ -49,7 +49,8 @@ def main():
         time.sleep(0.5)
         time_counter += 0.5
         if time_counter > 5:
-            return
+            print 'Error:Cant\'t find %s' % outFileAbsPath
+            sys.exit(1)
     # if len(sys.argv) < 2:
     #     sys.exit(0)
     # filepath = sys.argv[1]
