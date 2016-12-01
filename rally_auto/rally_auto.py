@@ -7,7 +7,6 @@ import subprocess
 import os
 import argparse
 import re
-
 # 1 find all *.json of directory
 def walk_file_paths(topdir):
     ret = []
@@ -25,13 +24,13 @@ def handle_output(output):
     groups = pat.search(output)
     task_report_cmd = groups.group(0)
     task_uuid = groups.group(1)
-    outfilepath = os.path.join(os.path.dirname(__file__), task_uuid)
-    task_report_cmd = task_report_cmd.replace('output', outfilepath)
+    outfilepath = os.path.join(os.path.dirname(__file__), task_uuid + '.html')
+    task_report_cmd = task_report_cmd.replace('output.html', outfilepath)
     print 'task_report_cmd:', task_report_cmd
     # return task_report_cmd
-    # subprocess.call(task_report_cmd, shell=True)
+    subprocess.call(task_report_cmd, shell=True)
     # handle reprot script
-    outfilepath = './30b4cdc0-9e89-4b78-bfb0-a5c716858550.html'
+    #outfilepath = './30b4cdc0-9e89-4b78-bfb0-a5c716858550.html'
     script_pat = re.compile(r'https://.+\.js')
     prefix = r'\\10.240.196.10\du\Openstack\Performance Test\js'
     print 'prefix:', prefix
@@ -39,7 +38,7 @@ def handle_output(output):
         content = inf.read()
         new_content = content
         for src in script_pat.findall(content):
-            newsrc = os.path.join(prefix, src.rsplit('/', 1)[-1])
+            newsrc = prefix + '\\' + src.rsplit('/', 1)[-1]
             new_content = new_content.replace(src, newsrc)
             print 'INFO: replace "%s" with "%s"' % (src, newsrc)
     with open(outfilepath, 'w') as outf:
@@ -76,6 +75,6 @@ def main():
             task
             break
 if __name__ == '__main__':
-    # main()
+    main()
 
-    handle_output(open('output.txt').read())
+    #handle_output(open('output.txt').read())
