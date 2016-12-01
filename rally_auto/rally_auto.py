@@ -2,7 +2,7 @@
 # @Author: wangwh8
 # @Date:   2016-11-30 16:58:08
 # @Last Modified by:   wangwh8
-# @Last Modified time: 2016-12-01 11:01:00
+# @Last Modified time: 2016-12-01 11:36:06
 import subprocess
 import os
 import argparse
@@ -28,7 +28,25 @@ def handle_output(output):
     outfilepath = os.path.join(os.path.dirname(__file__), task_uuid)
     task_report_cmd = task_report_cmd.replace('output', outfilepath)
     print 'task_report_cmd:', task_report_cmd
-    subprocess.call(task_report_cmd, shell=True)
+    # return task_report_cmd
+    # subprocess.call(task_report_cmd, shell=True)
+    # handle reprot script
+    outfilepath = './30b4cdc0-9e89-4b78-bfb0-a5c716858550.html'
+    script_pat = re.compile(r'https://.+\.js')
+    prefix = r'\\10.240.196.10\du\Openstack\Performance Test\js'
+    print 'prefix:', prefix
+    with open(outfilepath) as inf:
+        content = inf.read()
+        new_content = content
+        for src in script_pat.findall(content):
+            newsrc = os.path.join(prefix, src.rsplit('/', 1)[-1])
+            new_content = new_content.replace(src, newsrc)
+            print 'INFO: replace "%s" with "%s"' % (src, newsrc)
+    with open(outfilepath, 'w') as outf:
+        outf.write(new_content)
+    print 'finished.'
+        # 
+
 
     # rally task report 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c --out output.html
 def main():
@@ -58,6 +76,6 @@ def main():
             task
             break
 if __name__ == '__main__':
-    main()
+    # main()
 
-    #handle_output(open('output.txt').read())
+    handle_output(open('output.txt').read())
