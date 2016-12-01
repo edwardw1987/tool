@@ -72,8 +72,9 @@ def main():
             cmd = cmdFormat.format(fp)
             print cmd
             output = subprocess.check_output(cmd, shell=True)
-            task
-            break
+            handle_output(output)
+	print 'INFO: all done.'
+
 if __name__ == '__main__':
     main()
 
