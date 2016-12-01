@@ -49,8 +49,7 @@ def main():
         print 'json_abs_path:', json_abs_path
         cmd = cmdFormat.format(json_abs_path)
         output = subprocess.check_output(cmd, shell=True)
-        task_report_cmd = handle_output(output)
-        print 'task_report_cmd:', task_report_cmd
+        handle_output(output)
     elif args.workdir:
         for fp in walk_file_paths(args.workdir):
             cmd = cmdFormat.format(fp)
@@ -59,6 +58,6 @@ def main():
             task
             break
 if __name__ == '__main__':
-    # main()
+    main()
 
-    handle_output(open('output.txt').read())
+    #handle_output(open('output.txt').read())
