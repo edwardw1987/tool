@@ -9,8 +9,8 @@ import argparse
 #1 find all *.json of directory
 def walk_file_paths(topdir):
     ret = []
-    # suffix = '.json'
-    suffix = '.py'
+    suffix = '.json'
+    # suffix = '.py'
     abspath = os.path.abspath(topdir) ##
     for root, dirs, files in os.walk(abspath):
         for name in files:
@@ -26,12 +26,29 @@ def main():
         formatter_class=argparse.ArgumentDefaultsHelpFormatter,
         description="rally automation script")
     parser.add_argument('--dir', dest="workdir", metavar="working directory", action="store", 
-                        help="working directory to use", required=True)
+                        help="working directory to use")
+    parser.add_argument('--json', dest="json_path", metavar="json file path", action="store", help="json file path")
+    
+    cmdFormat = 'rally task start {}'
     args = parser.parse_args()
-    for fp in walk_file_paths(args.workdir):
-        cmdFormat = 'rally run task {}'
-        print cmdFormat.format(fp)
-        s = subprocess.check_output('echo hello', shell=True)
-        print repr(s)
+    if args.json_path:
+      json_abs_path = os.path.abspath(args.json_path)
+      print 'json_abs_path:', json_abs_path	
+      cmd = cmdFormat.format(json_abs_path)
+      output = subprocess.check_output(cmd, shell=True)
+      print output
+    elif args.workdir: 
+      for fp in walk_file_paths(args.workdir):
+          cmd = cmdFormat.format(fp)
+    	  print cmd
+          output = subprocess.check_output(cmd, shell=True)
+  	  print
+  	  print 
+  	  print
+	  print
+	  print "output", output
+
+
+	  break
 if __name__ == '__main__':
     main()

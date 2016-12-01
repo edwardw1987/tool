@@ -1,0 +1,118 @@
+json_abs_path: /root/rally.git/samples/tasks/scenarios/nova/list-servers.json
+Running Rally version 0.7.1~dev33
+--------------------------------------------------------------------------------
+ Preparing input task
+--------------------------------------------------------------------------------
+
+Input task is:
+
+{
+    "NovaServers.list_servers": [
+        {
+            "args": {
+                "detailed": true
+            },
+            "runner": {
+                "type": "constant",
+                "times": 1,
+                "concurrency": 1
+            },
+            "context": {
+                "users": {
+                    "tenants": 1,
+                    "users_per_tenant": 1
+                },
+                "servers": {
+                    "flavor": {
+                        "name": "m1.tiny"
+                    },
+                    "image": {
+                        "name": "^cirros.*uec$"
+                    },
+                    "servers_per_tenant": 2
+                }
+            }
+        }
+    ]
+}
+
+Task syntax is correct :)
+Task config is valid :)
+--------------------------------------------------------------------------------
+ Task  4235fc2d-e9e4-4d31-a5fa-b6339ab3204c: started
+--------------------------------------------------------------------------------
+
+Benchmarking... This can take a while...
+
+To track task status use:
+
+	rally task status
+	or
+	rally task detailed
+
+Using task: 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c
+
+--------------------------------------------------------------------------------
+Task 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c: finished
+--------------------------------------------------------------------------------
+
+test scenario NovaServers.list_servers
+args position 0
+args values:
+{
+  "runner": {
+    "type": "constant", 
+    "concurrency": 1, 
+    "times": 1
+  }, 
+  "args": {
+    "detailed": true
+  }, 
+  "context": {
+    "users": {
+      "users_per_tenant": 1, 
+      "project_domain": "default", 
+      "user_choice_method": "random", 
+      "user_domain": "default", 
+      "tenants": 1, 
+      "resource_management_workers": 20
+    }, 
+    "servers": {
+      "servers_per_tenant": 2, 
+      "flavor": {
+        "name": "m1.tiny"
+      }, 
+      "auto_assign_nic": false, 
+      "image": {
+        "name": "^cirros.*uec$"
+      }
+    }
+  }
+}
+
+--------------------------------------------------------------------------------
+ Task 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c has 0 error(s)
+--------------------------------------------------------------------------------
+
++-----------------------------------------------------------------------------------------------------------+
+|                                           Response Times (sec)                                            |
++--------+-----------+--------------+--------------+--------------+-----------+-----------+---------+-------+
+| Action | Min (sec) | Median (sec) | 90%ile (sec) | 95%ile (sec) | Max (sec) | Avg (sec) | Success | Count |
++--------+-----------+--------------+--------------+--------------+-----------+-----------+---------+-------+
+| total  | n/a       | n/a          | n/a          | n/a          | n/a       | n/a       | n/a     | 0     |
++--------+-----------+--------------+--------------+--------------+-----------+-----------+---------+-------+
+
+Load duration: 0.0
+Full duration: 3.21051
+
+HINTS:
+* To plot HTML graphics with this data, run:
+	rally task report 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c --out output.html
+
+* To generate a JUnit report, run:
+	rally task report 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c --junit --out output.xml
+
+* To get raw JSON output of task results, run:
+	rally task results 4235fc2d-e9e4-4d31-a5fa-b6339ab3204c
+
+
