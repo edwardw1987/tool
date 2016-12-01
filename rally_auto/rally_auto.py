@@ -2,7 +2,7 @@
 # @Author: wangwh8
 # @Date:   2016-11-30 16:58:08
 # @Last Modified by:   wangwh8
-# @Last Modified time: 2016-12-01 11:36:06
+# @Last Modified time: 2016-12-01 12:31:19
 import subprocess
 import os
 import argparse
@@ -65,6 +65,7 @@ def main():
         json_abs_path = os.path.abspath(args.json_path)
         print 'json_abs_path:', json_abs_path
         cmd = cmdFormat.format(json_abs_path)
+        print cmd
         output = subprocess.check_output(cmd, shell=True)
         handle_output(output)
     elif args.workdir:
